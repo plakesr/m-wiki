@@ -7,7 +7,7 @@
 2. Aws configured 
 
 ## Deployment commands
-'''
+```
 # Initlize terraform using 
   terraform init
   
@@ -17,4 +17,4 @@
 # Applt configuration in your env
   terraform apply -y
   
-'''
+```
