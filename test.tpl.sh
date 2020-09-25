@@ -18,6 +18,16 @@ sudo apt install software-properties-common
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible -y
 
+
+################CRON###############
+cat > /tmp/cron.sh <<EOL
+#!/bin/bash
+rm -rf /opt/m-wiki
+git -C /opt clone https://github.com/plakesr/m-wiki.git 
+cp -rvf /opt/m-wiki/LocalSettings.php /var/www/html/LocalSettings.php
+EOL
+
+
 ###################Ansible-playbooks########
 cat > /tmp/apache.yml <<EOL
 ---
@@ -51,6 +61,12 @@ cat > /tmp/apache.yml <<EOL
 
    - name: Moving dir
      shell: mv /tmp/mediawiki-*/* /var/www/html
+
+   - name: cron job
+     cron:
+       name: "check dirs"
+       minute: "*/2"
+       job: "sh /tmp/cron.sh > /dev/null"  
     
    - name: stooping ufw
      shell: service ufw stop
