@@ -1,6 +1,6 @@
 # Getting Started
 
-##Media Wiki
+  ## Media Wiki
 
   Pre-Reqs
 1.  Terraform Version 12 supported
@@ -8,13 +8,13 @@
 
 ## Deployment commands
 '''
-Initlize terraform using 
+# Initlize terraform using 
   terraform init
   
-Config plan to check the resources
+# Config plan to check the resources
   terraform plan
   
-Applt configuration in your env
+# Applt configuration in your env
   terraform apply -y
   
 '''
