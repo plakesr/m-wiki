@@ -1,6 +1,6 @@
 # m-wiki
 
-##Pre-Reqs
+  Pre-Reqs
 1.  Terraform Version 12 supported
 2. Aws configured 
 
