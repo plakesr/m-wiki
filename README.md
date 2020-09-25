@@ -20,4 +20,19 @@ Provided configuration is used to deploy MediaWiki Application on AWS cloud. Con
   terraform apply -y
   
 ```
+```
 ** After executing above commands, you must wait for the Ansible jobs to execute. IT will take 10-15 mins to complete the execution. MediaWiki will run on PUBLIC-IP of your WEB instance.
+
+How to login - 
+
+Fill media wiki details as below for mysql-
+
+Private IP - Your Mysql instance private ip
+Mysql user - wiki-user / Corona@321
+
+Once you have completed the setup page, it will ask you to Download LocalSetting.php file. Please Download it and place it in git repo, commit your repo change and push it to github.
+
+After pushing the changes, cron will download the php file after 2 minute and place it in MediaWiki root path. 
+
+
+```
