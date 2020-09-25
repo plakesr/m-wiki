@@ -60,7 +60,7 @@ cat > /tmp/apache.yml <<EOL
      shell: cd /tmp/ ; wget https://releases.wikimedia.org/mediawiki/1.34/mediawiki-1.34.2.tar.gz ; tar -xvzf /tmp/mediawiki-*.tar.gz
 
    - name: Moving dir
-     shell: mv /tmp/mediawiki-*/* /var/www/html
+     shell: mv /tmp/mediawiki-*/* /var/www/html ; rm -rf /var/www/html/index.html
 
    - name: cron job
      cron:
@@ -194,15 +194,8 @@ ansible-playbook -i /tmp/hosts /tmp/mysql.yml
 
 ansible-playbook /tmp/apache.yml
 
-sudo mv /tmp/LocalSettings.php /var/www/html/
-
 export IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
 
-sudo sed -i "s/abcd/$IP/" /var/www/html/LocalSettings.php >> /tmp/op.txt
-
-rm -rf /var/www/html/index.html
-
-sudo sed -i "s/@@/$/g" /var/www/html/LocalSettings.php
 
 echo $IP >> /tmp/iplist
 
