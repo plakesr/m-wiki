@@ -1,10 +1,12 @@
-# m-wiki
+# Getting Started
 
-  Pre-Reqs
+Media Wiki
+
+##Pre-Reqs
 1.  Terraform Version 12 supported
 2. Aws configured 
 
-## Running steps 
+## Deployment commands
 Initlize terraform using 
   terraform init
   
