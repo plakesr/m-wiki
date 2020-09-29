@@ -5,35 +5,29 @@ Provided configuration is used to deploy MediaWiki Application on AWS cloud. Con
   ## Media Wiki
 
   Pre-Reqs
-1.  Terraform Version 12 supported
-2. Aws configured 
+1. Terraform Version 12 supported
+2. Ansible 2.2 or above
+3. Aws configured 
+
 
 ## Deployment commands
 ```
-# Initialise terraform using 
-  terraform init
-  
-# Config plan to check the resources
-  terraform plan
-  
-# Apply configuration in your env
-  terraform apply -y
+Clone repo in your linux machine and navigate to repo directory in system. 
+
+Run below command to start deployment. 
+
+#sh wiki.sh
   
 ```
 
-** After executing the above commands, you must wait for the Ansible jobs to execute. IT will take 10-15 mins to complete the execution. MediaWiki will run on PUBLIC-IP of your WEB instance.
+** Installation will take sometime and will genrate wiki config files in your system. 
 
 # MediaWiki Setup
 ```
-Fill media wiki details as below for mysql-
+After complete installation you will get path of mediawiki config file on your terminal. It contians your apache ip/ mysql ip and mysql user login details. 
 
-Private IP - Your Mysql instance private ip
-Mysql user - wiki-user / Corona@321
+It helps you to complete your MediaWiki inital setup. Once done you have update your LocalSetting.php in webserver. To do this run below command for same clone directory.
 
-Once you have completed the setup page, it will ask you to Download 
-LocalSetting.php file. Please Download it and place it in git repo, commit your 
-repo change and push it to github.
+# ansible-playbook -i ansible/hosts ansible/local_set.yml
 
-After pushing the changes, cron will download the php file after 2 minute and 
-place it in MediaWiki root path. 
 ```
