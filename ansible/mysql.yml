@@ -29,7 +29,7 @@
        login_user: root
        login_password: ''
        name: root
-       password: Miami@2019
+       password: "{{ lookup('password', '/tmp/mysql_root_pass.txt chars=ascii_letters') }}"
        priv: "*.*:ALL,GRANT"
        host: 'localhost'
 
@@ -37,18 +37,16 @@
        login_unix_socket: /var/run/mysqld/mysqld.sock
        login_host: localhost
        login_user: root
-       login_password: Miami@2019
+       login_password: "{{ lookup('file', '/tmp/mysql_root_pass.txt') }}"
        name: my_wiki
        state: present
    - mysql_user:
        login_unix_socket: /var/run/mysqld/mysqld.sock
        login_host: localhost
        login_user: root
-       login_password: Miami@2019
+       login_password: "{{ lookup('file', '/tmp/mysql_root_pass.txt') }}"
        name: wiki-user
-       password: Corona@321
-       #name: "{{ new_name.stdout_lines }}"
-       #password: 12345
+       password: "{{ lookup('password', '/tmp/mysql_wiki_pass.txt chars=ascii_letters') }}"
        priv: 'my_wiki.*:ALL'
        host: '%'
        state: present
