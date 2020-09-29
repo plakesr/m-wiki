@@ -19,6 +19,10 @@ DB_USER : wiki-user
 DB_PASS: Corona@321
 EOL
 
+cat > ~/.ssh/matrix <<EOL
+ansible_sec@123
+EOL
+
 
 cat > ./ansible/hosts <<EOL
 [web]
@@ -36,17 +40,19 @@ ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 ansible_ssh_private_key_file=/tmp/id_rsa
 ansible_ssh_user=ubuntu
 EOL
-#sed -i '/\[web\]/a '$apache_ip'' ansible/hosts
-#sed -i '/\[mysql\]/a '$mysql_ip'' ansible/hosts
+
+ansible-vault encrypt --vault-password-file ~/.ssh/matrix ansible/hosts
+ansible-vault encrypt --vault-password-file ~/.ssh/matrix ansible/mysql.yml
 
 cat > ~/.ssh/config <<EOL
 Host $mysql_ip
   ProxyCommand ssh -i /tmp/id_rsa ubuntu@'$apache_ip' nc %h %p
 EOL
 
+
 ansible-playbook -i ./ansible/hosts ansible/apache.yml 
 
-ansible-playbook -i ansible/hosts ansible/mysql.yml 
+ansible-playbook -i ansible/hosts ansible/mysql.yml --vault-password-file ~/.ssh/matrix
 
 echo "Your Configuration details are kept in /tmp/wiki_config.txt. Once you done with LocalSetting.php. Please execute the below command from M-WIKI directory. >>> \n ansible-playbook -i ansible/hosts ansible/local_set.yml"
 
