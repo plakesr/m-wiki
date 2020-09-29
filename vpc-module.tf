@@ -4,7 +4,7 @@ provider "aws" {
 
  resource "aws_key_pair" "ec2_key" {
    key_name   = "dep-key"
-   public_key = file("${path.module}/my_key.pub")
+   public_key = file("/tmp/id_rsa.pub")
  }
 
 
@@ -47,7 +47,7 @@ module "ec2"{
     key_name = "${aws_key_pair.ec2_key.key_name}"
     vpc_security_group_ids = ["${module.vpc.public-sg}"]
     associate_public_ip_address = true
-    user_data = "${data.template_file.client.rendered}"
+    # user_data = "${data.template_file.client.rendered}"
      tags = "apache"
 }
 
@@ -63,22 +63,27 @@ module "ec2-mysql"{
     key_name = "${aws_key_pair.ec2_key.key_name}"
     vpc_security_group_ids = ["${module.vpc.mysql-sg}"]
     tags = "mysql"
-
+    
 }
 
-data "template_file" "client1" {
-  template = "${file("${path.module}/wiki.sh")}"
-  vars = {
-    private_address = "${element(tolist(module.ec2.public_ip), 1)}"
-  }
-}
+# data "template_file" "client" {
+#   template = "${file("${path.module}/test.tpl.sh")}"
+#   vars = {
+#     private_address = "${element(tolist(module.ec2-mysql.private_ip), 1)}"
+#   }
+# }
 
-data "template_file" "client" {
-  template = "${file("${path.module}/test.tpl.sh")}"
-  vars = {
-    private_address = "${element(tolist(module.ec2-mysql.private_ip), 1)}"
-  }
-}
+# #### Tfvars options with s3####
+# module "s3"{
+#   source = "./modules/s3"
 
+#   bucket_name = var.my_bucket
+#   tags_name = var.tag_s3
+#   block_public_policy = var.block_public_access
+# }
 
+# variable "my_bucket" {}
+# variable "tag_s3" {}
+# variable "block_public_access" {}
 
+# ###############################

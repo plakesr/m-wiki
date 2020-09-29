@@ -1,0 +1,15 @@
+---
+- hosts: web
+  become: yes 
+  vars_prompt:
+
+   - name: src_path
+     prompt: "Your LocalSetting.php path (abslute path eg. /tmp/LocalSetting.php)"
+     private: no
+  
+  tasks:
+   - name: LocalSetting copying 
+     copy:
+       src: "{{ src_path }}"
+       dest: /var/www/html/
+    

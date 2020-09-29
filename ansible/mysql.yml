@@ -1,0 +1,54 @@
+---
+- hosts: mysql
+  remote_user: ubuntu
+  become: yes
+  tasks:
+   - name: Upgrade all apt packages
+     apt: upgrade=dist force_apt_get=yes
+   
+   - name: Mysql server installation
+     apt: name={{item}} state=present update_cache=yes
+     with_items:     
+       - mysql-server
+       - python3-pip
+
+   - name: Py-mysql install
+     pip: name=pymysql executable=pip3 state=present
+
+   - name: commnet local bind
+     replace: dest=/etc/mysql/mysql.conf.d/mysqld.cnf regexp='^bind-address' replace='#bind-address'
+
+   - name: Service mysql start
+     service: name=mysql state=restarted enabled=yes
+
+   - name: Change root user password on first run
+     mysql_user:
+       login_unix_socket: /var/run/mysqld/mysqld.sock      
+       login_host: localhost
+       check_implicit_admin: yes
+       login_user: root
+       login_password: ''
+       name: root
+       password: Miami@2019
+       priv: "*.*:ALL,GRANT"
+       host: 'localhost'
+
+   - mysql_db:
+       login_unix_socket: /var/run/mysqld/mysqld.sock
+       login_host: localhost
+       login_user: root
+       login_password: Miami@2019
+       name: my_wiki
+       state: present
+   - mysql_user:
+       login_unix_socket: /var/run/mysqld/mysqld.sock
+       login_host: localhost
+       login_user: root
+       login_password: Miami@2019
+       name: wiki-user
+       password: Corona@321
+       #name: "{{ new_name.stdout_lines }}"
+       #password: 12345
+       priv: 'my_wiki.*:ALL'
+       host: '%'
+       state: present
