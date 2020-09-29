@@ -89,7 +89,7 @@ resource "aws_route_table" "private-routes" {
   }
 
 }
-
+#############ERRRR
 resource "aws_route_table_association" "private-routes-linking" {
   count = "${length(data.aws_availability_zones.azs.names)}"
   route_table_id = "${element(aws_route_table.private-routes.*.id, 1)}"
