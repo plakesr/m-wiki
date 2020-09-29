@@ -26,7 +26,7 @@ Run below command to start deployment.
 ```
 After complete installation you will get path of mediawiki config file on your terminal. It contians your apache ip/ mysql ip and mysql user login details. 
 
-It helps you to complete your MediaWiki inital setup. Once done you have update your LocalSetting.php in webserver. To do this run below command for same clone directory.
+It helps you to complete your MediaWiki inital setup. Once done you have update your LocalSetting.php in webserver. To do this run below command from same clone directory.
 
 # ansible-playbook -i ansible/hosts ansible/local_set.yml
 
